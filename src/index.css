@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+  }
+
+  /* ---- Color schemes ---- */
+  /* Teal (default) */
+  :root,
+  .scheme-teal {
+    --brand-50: 240 253 249;
+    --brand-100: 204 251 239;
+    --brand-200: 153 246 224;
+    --brand-300: 94 234 212;
+    --brand-400: 45 212 191;
+    --brand-500: 20 184 166;
+    --brand-600: 13 148 136;
+    --brand-700: 15 118 110;
+    --brand-800: 17 94 86;
+    --brand-900: 19 78 74;
+    --brand-950: 4 47 46;
+  }
+
+  /* Orange */
+  .scheme-orange {
+    --brand-50: 255 247 237;
+    --brand-100: 255 237 213;
+    --brand-200: 254 215 170;
+    --brand-300: 253 186 116;
+    --brand-400: 251 146 60;
+    --brand-500: 249 115 22;
+    --brand-600: 234 88 12;
+    --brand-700: 194 65 12;
+    --brand-800: 154 52 18;
+    --brand-900: 124 45 18;
+    --brand-950: 67 20 7;
+  }
+
+  /* Gray */
+  .scheme-gray {
+    --brand-50: 248 250 252;
+    --brand-100: 241 245 249;
+    --brand-200: 226 232 240;
+    --brand-300: 203 213 225;
+    --brand-400: 148 163 184;
+    --brand-500: 100 116 139;
+    --brand-600: 71 85 105;
+    --brand-700: 51 65 85;
+    --brand-800: 30 41 59;
+    --brand-900: 15 23 42;
+    --brand-950: 2 6 23;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-sand-50 text-sand-900 antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  .dark body {
+    @apply bg-sand-950 text-sand-100;
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-brand-900;
+  }
+  .dark ::selection {
+    @apply bg-brand-800 text-brand-100;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-sand-300 rounded-full;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-sand-700;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-sand-400;
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    @apply bg-sand-600;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white dark:bg-sand-900 border border-sand-200/80 dark:border-sand-800 rounded-2xl shadow-soft;
+  }
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-card hover:border-sand-300 dark:hover:border-sand-700;
+  }
+  .input-field {
+    @apply w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-sand-900 border border-sand-200 dark:border-sand-800 text-sand-900 dark:text-sand-100 placeholder:text-sand-400 dark:placeholder:text-sand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/60 focus:border-brand-400 transition;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 focus:ring-brand-500/50 shadow-sm;
+  }
+  .btn-ghost {
+    @apply btn text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800 focus:ring-sand-400/30;
+  }
+  .btn-outline {
+    @apply btn border border-sand-200 dark:border-sand-700 text-sand-700 dark:text-sand-200 hover:bg-sand-50 dark:hover:bg-sand-800 focus:ring-sand-400/30;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+  .nav-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800/60 hover:text-sand-900 dark:hover:text-sand-50 transition-all duration-150;
+  }
+  .nav-link-active {
+    @apply bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-900/50 hover:text-brand-700 dark:hover:text-brand-300;
+  }
+  .section-title {
+    @apply text-xs font-semibold uppercase tracking-wider text-sand-400 dark:text-sand-500;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
