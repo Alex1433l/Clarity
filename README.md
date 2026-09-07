@@ -1,3 +1,2 @@
 # Clarity
-
-[![Open in Bolt](https://clarity-web-app-uscy.bolt.host/)
+https://clarity-web-app-uscy.bolt.host/
