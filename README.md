@@ -1,3 +1,3 @@
 # Clarity
 
-[![Open in Bolt](https://bolt.new/static/open-in-bolt.svg)](https://bolt.new/~/sb1-7ae1ynx9)
+[![Open in Bolt](https://clarity-web-app-uscy.bolt.host/)
