@@ -150,3 +150,44 @@
     scrollbar-width: none;
   }
 }
+
+/* Learning rich text editor */
+.learning-editor:empty::before {
+  content: attr(data-placeholder);
+  color: rgb(168 162 158);
+  pointer-events: none;
+}
+.learning-editor h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0.75em 0 0.4em;
+  line-height: 1.2;
+}
+.learning-editor h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0.6em 0 0.3em;
+  line-height: 1.2;
+}
+.learning-editor h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.5em 0 0.25em;
+  line-height: 1.2;
+}
+.learning-editor ul {
+  list-style: disc;
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+.learning-editor ol {
+  list-style: decimal;
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+.learning-editor li {
+  margin: 0.2em 0;
+}
+.learning-editor p {
+  margin: 0.3em 0;
+}

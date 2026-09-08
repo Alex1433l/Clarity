@@ -35,6 +35,23 @@ export type TaskCategoryInput = {
   sort_order?: number;
 };
 
+export interface LearningDocument {
+  id: string;
+  title: string;
+  content: string | null;
+  parent_id: string | null;
+  sort_order: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export type LearningDocumentInput = {
+  title: string;
+  content?: string | null;
+  parent_id?: string | null;
+  sort_order?: number;
+};
+
 export interface Habit {
   id: string;
   name: string;

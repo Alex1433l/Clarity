@@ -9,6 +9,7 @@ import GoalsPage from '@/pages/GoalsPage';
 import MoodPage from '@/pages/MoodPage';
 import ReportsPage from '@/pages/ReportsPage';
 import LinksPage from '@/pages/LinksPage';
+import LearningPage from '@/pages/LearningPage';
 import SettingsPage from '@/pages/SettingsPage';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
               <Route path="/meu-estado" element={<MoodPage />} />
               <Route path="/relatorios" element={<ReportsPage />} />
               <Route path="/links" element={<LinksPage />} />
+              <Route path="/aprendizado" element={<LearningPage />} />
               <Route path="/configuracoes" element={<SettingsPage />} />
               <Route path="*" element={<TodayPage />} />
             </Route>

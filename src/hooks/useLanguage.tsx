@@ -114,6 +114,17 @@ const translations = {
     noJournalEntries: 'Nenhum registro ainda.',
     confirmDeleteJournal: 'Excluir este registro?',
     editEntry: 'Editar registro',
+    // Learning
+    learning: 'Aprendizado', learningSubtitle: 'Seus estudos e anotações em um só lugar',
+    newDoc: 'Novo documento', newSubdoc: 'Novo subdocumento',
+    deleteDoc: 'Excluir documento', confirmDeleteDoc: 'Excluir este documento e todos os seus subdocumentos?',
+    untitledDoc: 'Sem título', emptyDoc: 'Comece a escrever...',
+    saved: 'Salvo', saving: 'Salvando...',
+    bold: 'Negrito', italic: 'Itálico', underline: 'Sublinhado', uppercase: 'Maiúsculas',
+    heading1: 'Título 1', heading2: 'Título 2', heading3: 'Título 3',
+    bulletList: 'Lista', numberedList: 'Lista numerada',
+    textColor: 'Cor do texto',
+    noDocs: 'Nenhum documento ainda', noDocsDesc: 'Crie seu primeiro documento para começar a anotar.',
   },
   es: {
     today: 'Hoy', tasks: 'Tareas', habits: 'Hábitos', mood: 'Mi Estado',
@@ -216,6 +227,17 @@ const translations = {
     noJournalEntries: 'Aún no hay registros.',
     confirmDeleteJournal: '¿Eliminar este registro?',
     editEntry: 'Editar registro',
+    // Learning
+    learning: 'Aprendizaje', learningSubtitle: 'Tus estudios y notas en un solo lugar',
+    newDoc: 'Nuevo documento', newSubdoc: 'Nuevo subdocumento',
+    deleteDoc: 'Eliminar documento', confirmDeleteDoc: '¿Eliminar este documento y todos sus subdocumentos?',
+    untitledDoc: 'Sin título', emptyDoc: 'Empieza a escribir...',
+    saved: 'Guardado', saving: 'Guardando...',
+    bold: 'Negrita', italic: 'Cursiva', underline: 'Subrayado', uppercase: 'Mayúsculas',
+    heading1: 'Título 1', heading2: 'Título 2', heading3: 'Título 3',
+    bulletList: 'Lista', numberedList: 'Lista numerada',
+    textColor: 'Color del texto',
+    noDocs: 'Sin documentos aún', noDocsDesc: 'Crea tu primer documento para empezar a anotar.',
   },
   en: {
     today: 'Today', tasks: 'Tasks', habits: 'Habits', mood: 'My State',
@@ -318,6 +340,17 @@ const translations = {
     noJournalEntries: 'No entries yet.',
     confirmDeleteJournal: 'Delete this entry?',
     editEntry: 'Edit entry',
+    // Learning
+    learning: 'Learning', learningSubtitle: 'Your studies and notes in one place',
+    newDoc: 'New document', newSubdoc: 'New subdocument',
+    deleteDoc: 'Delete document', confirmDeleteDoc: 'Delete this document and all its subdocuments?',
+    untitledDoc: 'Untitled', emptyDoc: 'Start writing...',
+    saved: 'Saved', saving: 'Saving...',
+    bold: 'Bold', italic: 'Italic', underline: 'Underline', uppercase: 'Uppercase',
+    heading1: 'Heading 1', heading2: 'Heading 2', heading3: 'Heading 3',
+    bulletList: 'Bullet list', numberedList: 'Numbered list',
+    textColor: 'Text color',
+    noDocs: 'No documents yet', noDocsDesc: 'Create your first document to start taking notes.',
   },
 } as const;
 
