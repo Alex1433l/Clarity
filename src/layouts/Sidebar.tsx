@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Sparkles, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { navItems } from '@/config/navigation';
 import { useLanguage } from '@/hooks/useLanguage';
 import { cn } from '@/utils';
@@ -31,8 +31,8 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       >
         <div className="flex items-center justify-between px-5 h-16 border-b border-sand-200/80 dark:border-sand-800">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center shadow-sm">
-              <Sparkles className="w-5 h-5 text-white" strokeWidth={2.2} />
+            <div className="w-9 h-9 rounded-xl bg-sand-100 dark:bg-sand-800 flex items-center justify-center shadow-sm overflow-hidden">
+              <img src="/Design_sem_nome__1_-removebg-preview.png" alt="CLARITY" className="w-8 h-8 object-contain" />
             </div>
             <div className="leading-tight">
               <p className="font-display font-extrabold text-lg tracking-tight text-sand-900 dark:text-white">CLARITY</p>
