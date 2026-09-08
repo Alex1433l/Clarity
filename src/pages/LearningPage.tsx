@@ -12,6 +12,7 @@ import type { LearningDocument } from '@/types';
 import { cn } from '@/utils';
 
 const APP_COLORS = [
+  { name: 'white', value: 'rgb(255 255 255)' },
   { name: 'sand-900', value: 'rgb(28 25 23)' },
   { name: 'brand-600', value: 'rgb(13 148 136)' },
   { name: 'red-500', value: 'rgb(239 68 68)' },
