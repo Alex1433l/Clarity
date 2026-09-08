@@ -21,6 +21,20 @@ export type TaskInput = {
   sort_order?: number;
 };
 
+export interface TaskCategory {
+  id: string;
+  name: string;
+  color: string | null;
+  sort_order: number;
+  created_at?: string;
+}
+
+export type TaskCategoryInput = {
+  name: string;
+  color?: string | null;
+  sort_order?: number;
+};
+
 export interface Habit {
   id: string;
   name: string;
