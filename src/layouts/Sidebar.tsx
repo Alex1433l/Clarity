@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { X, LogOut } from 'lucide-react';
+import { X, LogOut, PanelLeftClose } from 'lucide-react';
 import { navItems } from '@/config/navigation';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useAuth } from '@/hooks/useAuth';
@@ -8,9 +8,11 @@ import { cn } from '@/utils';
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
+  collapsed: boolean;
+  onCollapse: () => void;
 }
 
-export default function Sidebar({ open, onClose }: SidebarProps) {
+export default function Sidebar({ open, onClose, collapsed, onCollapse }: SidebarProps) {
   const { t } = useLanguage();
   const { user, signOut } = useAuth();
 
@@ -27,7 +29,8 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         className={cn(
           'fixed lg:sticky top-0 left-0 z-50 h-screen w-72 shrink-0 flex flex-col',
           'bg-white dark:bg-sand-900 border-r border-sand-200/80 dark:border-sand-800',
-          'transition-transform duration-300 ease-out lg:translate-x-0',
+          'transition-transform duration-300 ease-out',
+          collapsed ? 'lg:-translate-x-full lg:w-0 lg:border-0 lg:overflow-hidden' : 'lg:translate-x-0',
           open ? 'translate-x-0' : '-translate-x-full'
         )}
       >
@@ -41,9 +44,18 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               <p className="text-[11px] text-sand-400 dark:text-sand-500 -mt-0.5">{t('organizeLife')}</p>
             </div>
           </div>
-          <button onClick={onClose} className="lg:hidden p-1.5 rounded-lg text-sand-500 hover:bg-sand-100 dark:hover:bg-sand-800" aria-label="Close menu">
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={onCollapse}
+              className="hidden lg:flex p-1.5 rounded-lg text-sand-400 hover:text-sand-600 dark:hover:text-sand-200 hover:bg-sand-100 dark:hover:bg-sand-800 transition-colors"
+              aria-label="Esconder menu"
+            >
+              <PanelLeftClose className="w-5 h-5" />
+            </button>
+            <button onClick={onClose} className="lg:hidden p-1.5 rounded-lg text-sand-500 hover:bg-sand-100 dark:hover:bg-sand-800" aria-label="Close menu">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         <nav className="flex-1 overflow-y-auto no-scrollbar px-3 py-4 space-y-1">
@@ -81,7 +93,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               </button>
             </div>
           )}
-          <div className="card p-3.5 bg-gradient-to-br from-brand-50 to-brand-100/60 dark:from-brand-900/30 dark:to-brand-900/10 border-brand-200/60 dark:border-brand-800/40">
+          <div className="card p-3 bg-gradient-to-br from-brand-50 to-brand-100/60 dark:from-brand-900/30 dark:to-brand-900/10 border-brand-200/60 dark:border-brand-800/40">
             <p className="text-sm font-semibold text-brand-800 dark:text-brand-200">{t('findClarity')}</p>
             <p className="text-xs text-brand-700/80 dark:text-brand-300/70 mt-0.5 leading-relaxed">{t('findClarityDesc')}</p>
           </div>

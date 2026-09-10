@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, Moon, Sun, Globe, Palette } from 'lucide-react';
+import { Menu, Moon, Sun, Globe, Palette, PanelLeftOpen } from 'lucide-react';
 import { useTheme, type ColorScheme } from '@/hooks/useTheme';
 import { useLanguage, type Language } from '@/hooks/useLanguage';
 import MusicPlayer from '@/layouts/MusicPlayer';
@@ -7,9 +7,10 @@ import { cn } from '@/utils';
 
 interface TopbarProps {
   onMenuClick: () => void;
+  sidebarCollapsed: boolean;
 }
 
-export default function Topbar({ onMenuClick }: TopbarProps) {
+export default function Topbar({ onMenuClick, sidebarCollapsed }: TopbarProps) {
   const { theme, toggleTheme, colorScheme, setColorScheme } = useTheme();
   const { lang, setLang, t } = useLanguage();
   const [showLangMenu, setShowLangMenu] = useState(false);
@@ -29,8 +30,13 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
   return (
     <header className="sticky top-0 z-30 bg-sand-50/80 dark:bg-sand-950/80 backdrop-blur-lg border-b border-sand-200/70 dark:border-sand-800/70">
-      <div className="flex items-center gap-3 px-4 sm:px-6 h-16">
-        <button onClick={onMenuClick} className="lg:hidden p-2 -ml-2 rounded-lg text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800" aria-label="Open menu">
+      <div className="flex items-center gap-2 px-2 sm:px-3 h-16">
+        {sidebarCollapsed ? (
+          <button onClick={onMenuClick} className="hidden lg:flex p-2 -ml-1 rounded-lg text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800 transition-colors" aria-label="Mostrar menu">
+            <PanelLeftOpen className="w-5 h-5" />
+          </button>
+        ) : null}
+        <button onClick={onMenuClick} className="lg:hidden p-2 -ml-1 rounded-lg text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800" aria-label="Open menu">
           <Menu className="w-5 h-5" />
         </button>
 

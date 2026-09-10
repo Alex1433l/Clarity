@@ -104,7 +104,7 @@
 
 @layer components {
   .card {
-    @apply bg-white dark:bg-sand-900 border border-sand-200/80 dark:border-sand-800 rounded-2xl shadow-soft;
+    @apply bg-white dark:bg-sand-900 border border-sand-200/80 dark:border-sand-800 rounded-lg shadow-soft;
   }
   .card-hover {
     @apply transition-all duration-200 hover:shadow-card hover:border-sand-300 dark:hover:border-sand-700;
