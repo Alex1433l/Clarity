@@ -1,7 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@/hooks/useTheme';
 import { LanguageProvider } from '@/hooks/useLanguage';
+import { AuthProvider } from '@/hooks/useAuth';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import AppLayout from '@/layouts/AppLayout';
+import AuthPage from '@/pages/AuthPage';
 import TodayPage from '@/pages/TodayPage';
 import TasksPage from '@/pages/TasksPage';
 import HabitsPage from '@/pages/HabitsPage';
@@ -16,22 +19,27 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route path="/" element={<TodayPage />} />
-              <Route path="/tarefas" element={<TasksPage />} />
-              <Route path="/habitos" element={<HabitsPage />} />
-              <Route path="/objetivos" element={<GoalsPage />} />
-              <Route path="/meu-estado" element={<MoodPage />} />
-              <Route path="/relatorios" element={<ReportsPage />} />
-              <Route path="/links" element={<LinksPage />} />
-              <Route path="/aprendizado" element={<LearningPage />} />
-              <Route path="/configuracoes" element={<SettingsPage />} />
-              <Route path="*" element={<TodayPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<AuthPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route element={<AppLayout />}>
+                  <Route path="/" element={<TodayPage />} />
+                  <Route path="/tarefas" element={<TasksPage />} />
+                  <Route path="/habitos" element={<HabitsPage />} />
+                  <Route path="/objetivos" element={<GoalsPage />} />
+                  <Route path="/meu-estado" element={<MoodPage />} />
+                  <Route path="/relatorios" element={<ReportsPage />} />
+                  <Route path="/links" element={<LinksPage />} />
+                  <Route path="/aprendizado" element={<LearningPage />} />
+                  <Route path="/configuracoes" element={<SettingsPage />} />
+                  <Route path="*" element={<TodayPage />} />
+                </Route>
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>
   );

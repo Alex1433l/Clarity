@@ -1,7 +1,8 @@
 import { NavLink } from 'react-router-dom';
-import { X } from 'lucide-react';
+import { X, LogOut } from 'lucide-react';
 import { navItems } from '@/config/navigation';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/utils';
 
 interface SidebarProps {
@@ -11,6 +12,7 @@ interface SidebarProps {
 
 export default function Sidebar({ open, onClose }: SidebarProps) {
   const { t } = useLanguage();
+  const { user, signOut } = useAuth();
 
   return (
     <>
@@ -60,6 +62,25 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         </nav>
 
         <div className="px-4 py-4 border-t border-sand-200/80 dark:border-sand-800">
+          {user && (
+            <div className="flex items-center gap-2 mb-3 px-1">
+              <div className="w-8 h-8 rounded-full bg-brand-100 dark:bg-brand-900/40 flex items-center justify-center shrink-0">
+                <span className="text-xs font-semibold text-brand-700 dark:text-brand-300">
+                  {(user.email ?? '?')[0].toUpperCase()}
+                </span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-medium text-sand-700 dark:text-sand-300 truncate">{user.email}</p>
+              </div>
+              <button
+                onClick={() => signOut()}
+                className="p-1.5 rounded-lg text-sand-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                aria-label={t('logout')}
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          )}
           <div className="card p-3.5 bg-gradient-to-br from-brand-50 to-brand-100/60 dark:from-brand-900/30 dark:to-brand-900/10 border-brand-200/60 dark:border-brand-800/40">
             <p className="text-sm font-semibold text-brand-800 dark:text-brand-200">{t('findClarity')}</p>
             <p className="text-xs text-brand-700/80 dark:text-brand-300/70 mt-0.5 leading-relaxed">{t('findClarityDesc')}</p>

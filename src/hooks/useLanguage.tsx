@@ -125,6 +125,10 @@ const translations = {
     bulletList: 'Lista', numberedList: 'Lista numerada',
     textColor: 'Cor do texto',
     noDocs: 'Nenhum documento ainda', noDocsDesc: 'Crie seu primeiro documento para começar a anotar.',
+    // Auth
+    login: 'Entrar', signup: 'Criar conta', createAccount: 'Criar conta',
+    email: 'E-mail', password: 'Senha', logout: 'Sair',
+    authSubtitle: 'Seus dados ficam salvos na sua conta, privados para você.',
   },
   es: {
     today: 'Hoy', tasks: 'Tareas', habits: 'Hábitos', mood: 'Mi Estado',
@@ -238,6 +242,10 @@ const translations = {
     bulletList: 'Lista', numberedList: 'Lista numerada',
     textColor: 'Color del texto',
     noDocs: 'Sin documentos aún', noDocsDesc: 'Crea tu primer documento para empezar a anotar.',
+    // Auth
+    login: 'Entrar', signup: 'Crear cuenta', createAccount: 'Crear cuenta',
+    email: 'Correo electrónico', password: 'Contraseña', logout: 'Salir',
+    authSubtitle: 'Tus datos se guardan en tu cuenta, privados para ti.',
   },
   en: {
     today: 'Today', tasks: 'Tasks', habits: 'Habits', mood: 'My State',
@@ -351,6 +359,10 @@ const translations = {
     bulletList: 'Bullet list', numberedList: 'Numbered list',
     textColor: 'Text color',
     noDocs: 'No documents yet', noDocsDesc: 'Create your first document to start taking notes.',
+    // Auth
+    login: 'Sign in', signup: 'Sign up', createAccount: 'Create account',
+    email: 'Email', password: 'Password', logout: 'Sign out',
+    authSubtitle: 'Your data is saved to your account, private to you.',
   },
 } as const;
 
