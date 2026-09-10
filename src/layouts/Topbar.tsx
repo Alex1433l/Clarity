@@ -30,7 +30,7 @@ export default function Topbar({ onMenuClick, sidebarCollapsed }: TopbarProps) {
 
   return (
     <header className="sticky top-0 z-30 bg-sand-50/80 dark:bg-sand-950/80 backdrop-blur-lg border-b border-sand-200/70 dark:border-sand-800/70">
-      <div className="flex items-center gap-2 px-2 sm:px-3 h-16">
+      <div className="flex items-center gap-2 px-2 sm:px-3 h-12">
         {sidebarCollapsed ? (
           <button onClick={onMenuClick} className="hidden lg:flex p-2 -ml-1 rounded-lg text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800 transition-colors" aria-label="Mostrar menu">
             <PanelLeftOpen className="w-5 h-5" />
