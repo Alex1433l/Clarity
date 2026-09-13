@@ -1,7 +1,7 @@
 import { useState, type DragEvent } from 'react';
 import {
   Link2, Plus, ExternalLink, Trash2, Pencil, Folder, FolderOpen,
-  X, Check, GripVertical, Loader2, AlertCircle,
+  X, Check, GripVertical, Loader2, AlertCircle, Upload, Bookmark,
 } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import Card from '@/components/Card';
@@ -9,6 +9,7 @@ import { useLinks } from '@/hooks/useLinks';
 import { useLanguage } from '@/hooks/useLanguage';
 import type { LinkItem, LinkFolder } from '@/types';
 import { cn } from '@/utils';
+import { parseBookmarksHtml, flattenBookmarks } from '@/utils/bookmarks';
 
 function getDomain(url: string): string {
   try {
@@ -149,6 +150,10 @@ export default function LinksPage() {
   const [folderModalOpen, setFolderModalOpen] = useState(false);
   const [editingFolder, setEditingFolder] = useState<LinkFolder | null>(null);
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
+  const [importModalOpen, setImportModalOpen] = useState(false);
+  const [importState, setImportState] = useState<'idle' | 'parsing' | 'importing' | 'done'>('idle');
+  const [importError, setImportError] = useState<string | null>(null);
+  const [importPreview, setImportPreview] = useState<{ folders: number; links: number } | null>(null);
 
   // Drag state for folders
   const [draggedFolderId, setDraggedFolderId] = useState<string | null>(null);
@@ -246,6 +251,7 @@ export default function LinksPage() {
       <PageHeader title={t('linksTitle')} subtitle={t('linksSubtitle')} icon={Link2}
         action={
           <div className="flex gap-2">
+            <button onClick={() => { setImportModalOpen(true); setImportState('idle'); setImportError(null); setImportPreview(null); }} className="btn-outline text-xs sm:text-sm"><Upload className="w-4 h-4" /> Importar</button>
             <button onClick={openCreateFolder} className="btn-outline text-xs sm:text-sm"><Folder className="w-4 h-4" /> Nova pasta</button>
             <button onClick={openCreateLink} className="btn-primary text-xs sm:text-sm"><Plus className="w-4 h-4" /> {t('newLink')}</button>
           </div>
@@ -386,6 +392,169 @@ export default function LinksPage() {
 
       <LinkModal open={linkModalOpen} onClose={() => setLinkModalOpen(false)} onSave={handleSaveLink} link={editingLink} folders={folders} />
       <FolderModal open={folderModalOpen} onClose={() => setFolderModalOpen(false)} onSave={handleSaveFolder} folder={editingFolder} />
+
+      {importModalOpen && (
+        <ImportBookmarksModal
+          onClose={() => setImportModalOpen(false)}
+          existingFolderNames={new Set(folders.map((f) => f.name))}
+          createFolder={createFolder}
+          createLink={createLink}
+          state={importState}
+          setState={setImportState}
+          error={importError}
+          setError={setImportError}
+          preview={importPreview}
+          setPreview={setImportPreview}
+        />
+      )}
+    </div>
+  );
+}
+
+interface ImportBookmarksModalProps {
+  onClose: () => void;
+  existingFolderNames: Set<string>;
+  createFolder: (input: { name: string }) => Promise<LinkFolder | null>;
+  createLink: (input: { name: string; url: string; folder_id: string | null }) => Promise<LinkItem | null>;
+  state: 'idle' | 'parsing' | 'importing' | 'done';
+  setState: (s: 'idle' | 'parsing' | 'importing' | 'done') => void;
+  error: string | null;
+  setError: (e: string | null) => void;
+  preview: { folders: number; links: number } | null;
+  setPreview: (p: { folders: number; links: number } | null) => void;
+}
+
+function ImportBookmarksModal({
+  onClose, existingFolderNames, createFolder, createLink,
+  state, setState, error, setError, preview, setPreview,
+}: ImportBookmarksModalProps) {
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileSelect = async (f: File) => {
+    setFile(f);
+    setError(null);
+    setState('parsing');
+    try {
+      const text = await f.text();
+      const { folders, bookmarks } = parseBookmarksHtml(text);
+      const existing = new Set(existingFolderNames);
+      const { foldersToCreate, linksToCreate } = flattenBookmarks(folders, bookmarks, existing);
+      setPreview({ folders: foldersToCreate.length, links: linksToCreate.length });
+      setState('idle');
+    } catch {
+      setError('Não foi possível ler o arquivo. Verifique se é um arquivo de favoritos válido.');
+      setState('idle');
+    }
+  };
+
+  const handleImport = async () => {
+    if (!file) return;
+    setState('importing');
+    setError(null);
+    try {
+      const text = await file.text();
+      const { folders, bookmarks } = parseBookmarksHtml(text);
+      const existing = new Set(existingFolderNames);
+      const { foldersToCreate, linksToCreate } = flattenBookmarks(folders, bookmarks, existing);
+
+      const folderNameMap = new Map<string, string>();
+      for (const f of foldersToCreate) {
+        const created = await createFolder({ name: f.name });
+        if (created) folderNameMap.set(f.name, created.id);
+      }
+
+      for (const link of linksToCreate) {
+        const folderId = link.folderName ? folderNameMap.get(link.folderName) ?? null : null;
+        await createLink({ name: link.name, url: link.url, folder_id: folderId });
+      }
+
+      setState('done');
+    } catch {
+      setError('Erro ao importar favoritos. Tente novamente.');
+      setState('idle');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={onClose}>
+      <div className="w-full max-w-md card p-5 animate-scale-in" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Bookmark className="w-5 h-5 text-brand-600 dark:text-brand-400" />
+            <h3 className="text-base font-semibold text-sand-800 dark:text-sand-100">Importar favoritos</h3>
+          </div>
+          <button onClick={onClose} className="p-1 rounded-lg text-sand-400 hover:bg-sand-100 dark:hover:bg-sand-800"><X className="w-4 h-4" /></button>
+        </div>
+
+        <p className="text-sm text-sand-500 dark:text-sand-400 mb-4 leading-relaxed">
+          Selecione um arquivo <span className="font-mono text-xs bg-sand-100 dark:bg-sand-800 px-1.5 py-0.5 rounded">bookmarks.html</span> exportado do seu navegador. As pastas e favoritos serão adicionados à sua lista de links.
+        </p>
+
+        {error && (
+          <div className="flex items-center gap-2 px-3 py-2.5 mb-4 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm">
+            <AlertCircle className="w-4 h-4 shrink-0" />{error}
+          </div>
+        )}
+
+        {state === 'done' ? (
+          <div className="flex flex-col items-center gap-3 py-6">
+            <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+              <Check className="w-6 h-6 text-green-600 dark:text-green-400" />
+            </div>
+            <p className="text-sm font-medium text-sand-700 dark:text-sand-200">Favoritos importados com sucesso!</p>
+            <button onClick={onClose} className="btn-primary text-sm">Concluir</button>
+          </div>
+        ) : (
+          <>
+            <label className="block">
+              <input
+                type="file"
+                accept=".html,.htm,text/html"
+                onChange={(e) => { if (e.target.files?.[0]) handleFileSelect(e.target.files[0]); }}
+                className="hidden"
+              />
+              <span className={cn('btn-outline w-full cursor-pointer text-sm', file && 'border-brand-400 text-brand-600 dark:text-brand-400')}>
+                <Upload className="w-4 h-4" />
+                {file ? file.name : 'Selecionar arquivo'}
+              </span>
+            </label>
+
+            {preview && state !== 'parsing' && (
+              <div className="mt-4 p-3 rounded-xl bg-sand-50 dark:bg-sand-800/50 border border-sand-200 dark:border-sand-700">
+                <p className="text-xs text-sand-500 dark:text-sand-400 mb-1">Serão adicionados:</p>
+                <div className="flex gap-4">
+                  <span className="text-sm text-sand-700 dark:text-sand-200"><Folder className="w-3.5 h-3.5 inline mr-1" />{preview.folders} pasta(s)</span>
+                  <span className="text-sm text-sand-700 dark:text-sand-200"><Link2 className="w-3.5 h-3.5 inline mr-1" />{preview.links} link(s)</span>
+                </div>
+              </div>
+            )}
+
+            {state === 'parsing' && (
+              <div className="flex items-center justify-center gap-2 py-4">
+                <Loader2 className="w-5 h-5 text-brand-500 animate-spin" />
+                <span className="text-sm text-sand-500">Analisando arquivo...</span>
+              </div>
+            )}
+
+            {state === 'importing' && (
+              <div className="flex items-center justify-center gap-2 py-4">
+                <Loader2 className="w-5 h-5 text-brand-500 animate-spin" />
+                <span className="text-sm text-sand-500">Importando favoritos...</span>
+              </div>
+            )}
+
+            {preview && state === 'idle' && (
+              <button
+                onClick={handleImport}
+                disabled={preview.links === 0 && preview.folders === 0}
+                className="btn-primary w-full text-sm mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Importar {preview.links} link(s)
+              </button>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
