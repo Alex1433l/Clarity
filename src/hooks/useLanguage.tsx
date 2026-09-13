@@ -7,7 +7,7 @@ const translations = {
     // Nav
     today: 'Hoje', tasks: 'Tarefas', habits: 'Hábitos', mood: 'Meu Estado',
     goals: 'Objetivos', reports: 'Relatórios', spiritual: 'Espiritual',
-    journal: 'Diário', links: 'Links', settings: 'Configurações',
+    journal: 'Diário', links: 'Links', books: 'Biblioteca', settings: 'Configurações',
     // Today page
     goodMorning: 'Bom dia', goodAfternoon: 'Boa tarde', goodEvening: 'Boa noite',
     todaySubtitle: 'Como você está hoje? Veja o que precisa ser feito e o que está construindo.',
@@ -133,7 +133,7 @@ const translations = {
   es: {
     today: 'Hoy', tasks: 'Tareas', habits: 'Hábitos', mood: 'Mi Estado',
     goals: 'Objetivos', reports: 'Informes', spiritual: 'Espiritual',
-    journal: 'Diario', links: 'Enlaces', settings: 'Configuración',
+    journal: 'Diario', links: 'Enlaces', books: 'Biblioteca', settings: 'Configuración',
     goodMorning: 'Buenos días', goodAfternoon: 'Buenas tardes', goodEvening: 'Buenas noches',
     todaySubtitle: '¿Cómo estás hoy? Mira lo que hay que hacer y lo que estás construyendo.',
     howAmI: 'Cómo estoy', moodToday: 'Tu estado personal hoy', update: 'Actualizar',
@@ -250,7 +250,7 @@ const translations = {
   en: {
     today: 'Today', tasks: 'Tasks', habits: 'Habits', mood: 'My State',
     goals: 'Goals', reports: 'Reports', spiritual: 'Spiritual',
-    journal: 'Journal', links: 'Links', settings: 'Settings',
+    journal: 'Journal', links: 'Links', books: 'Library', settings: 'Settings',
     goodMorning: 'Good morning', goodAfternoon: 'Good afternoon', goodEvening: 'Good evening',
     todaySubtitle: 'How are you today? See what needs to be done and what you are building.',
     howAmI: 'How am I', moodToday: 'Your personal state today', update: 'Update',

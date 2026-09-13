@@ -175,6 +175,28 @@ export interface GratitudeItem {
   text: string;
 }
 
+export interface Book {
+  id: string;
+  title: string;
+  author: string | null;
+  cover_url: string | null;
+  file_path: string;
+  file_size: number | null;
+  last_read_chapter: string | null;
+  sort_order: number;
+  user_id: string;
+  created_at?: string;
+}
+
+export type BookInput = {
+  title: string;
+  author?: string | null;
+  cover_url?: string | null;
+  file_path: string;
+  file_size?: number | null;
+  sort_order?: number;
+};
+
 export type PageId =
   | 'today'
   | 'tasks'
@@ -185,4 +207,5 @@ export type PageId =
   | 'spiritual'
   | 'journal'
   | 'links'
+  | 'books'
   | 'settings';

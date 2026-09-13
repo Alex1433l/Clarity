@@ -6,6 +6,7 @@ import {
   Brain,
   TrendingUp,
   Link2,
+  Library,
   GraduationCap,
   Settings,
   type LucideIcon,
@@ -27,6 +28,7 @@ export const navItems: NavItem[] = [
   { id: 'goals', labelKey: 'goals', icon: Target, path: '/objetivos' },
   { id: 'reports', labelKey: 'reports', icon: TrendingUp, path: '/relatorios' },
   { id: 'links', labelKey: 'links', icon: Link2, path: '/links' },
+  { id: 'books', labelKey: 'books', icon: Library, path: '/biblioteca' },
   { id: 'learning', labelKey: 'learning', icon: GraduationCap, path: '/aprendizado' },
   { id: 'settings', labelKey: 'settings', icon: Settings, path: '/configuracoes' },
 ];
