@@ -27,6 +27,6 @@ export const navItems: NavItem[] = [
   { id: 'goals', labelKey: 'goals', icon: Target, path: '/objetivos' },
   { id: 'reports', labelKey: 'reports', icon: TrendingUp, path: '/relatorios' },
   { id: 'links', labelKey: 'links', icon: Link2, path: '/links' },
-  { id: 'learning', labelKey: 'learning', icon: GraduationCap, path: '/aprendizado' },
+  { id: 'learning', labelKey: 'notes', icon: GraduationCap, path: '/aprendizado' },
   { id: 'settings', labelKey: 'settings', icon: Settings, path: '/configuracoes' },
 ];

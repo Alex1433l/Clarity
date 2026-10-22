@@ -115,7 +115,7 @@ const translations = {
     confirmDeleteJournal: 'Excluir este registro?',
     editEntry: 'Editar registro',
     // Learning
-    learning: 'Aprendizado', learningSubtitle: 'Seus estudos e anotações em um só lugar',
+    learning: 'Aprendizado', notes: 'Anotações', learningSubtitle: 'Seus estudos e anotações em um só lugar',
     newDoc: 'Novo documento', newSubdoc: 'Novo subdocumento',
     deleteDoc: 'Excluir documento', confirmDeleteDoc: 'Excluir este documento e todos os seus subdocumentos?',
     untitledDoc: 'Sem título', emptyDoc: 'Comece a escrever...',
@@ -232,7 +232,7 @@ const translations = {
     confirmDeleteJournal: '¿Eliminar este registro?',
     editEntry: 'Editar registro',
     // Learning
-    learning: 'Aprendizaje', learningSubtitle: 'Tus estudios y notas en un solo lugar',
+    learning: 'Aprendizaje', notes: 'Notas', learningSubtitle: 'Tus estudios y notas en un solo lugar',
     newDoc: 'Nuevo documento', newSubdoc: 'Nuevo subdocumento',
     deleteDoc: 'Eliminar documento', confirmDeleteDoc: '¿Eliminar este documento y todos sus subdocumentos?',
     untitledDoc: 'Sin título', emptyDoc: 'Empieza a escribir...',
@@ -349,7 +349,7 @@ const translations = {
     confirmDeleteJournal: 'Delete this entry?',
     editEntry: 'Edit entry',
     // Learning
-    learning: 'Learning', learningSubtitle: 'Your studies and notes in one place',
+    learning: 'Learning', notes: 'Notes', learningSubtitle: 'Your studies and notes in one place',
     newDoc: 'New document', newSubdoc: 'New subdocument',
     deleteDoc: 'Delete document', confirmDeleteDoc: 'Delete this document and all its subdocuments?',
     untitledDoc: 'Untitled', emptyDoc: 'Start writing...',
