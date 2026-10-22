@@ -21,6 +21,7 @@ export default function TasksPage() {
   const [filter, setFilter] = useState<Filter>('all');
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Task | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<Task | null>(null);
 
   const openCreate = () => { setEditing(null); setModalOpen(true); };
   const openEdit = (task: Task) => { setEditing(task); setModalOpen(true); };
@@ -31,7 +32,13 @@ export default function TasksPage() {
   };
 
   const handleDelete = (task: Task) => {
-    if (confirm(`"${task.title}"?`)) deleteTask(task.id);
+    setPendingDelete(task);
+  };
+
+  const confirmDelete = () => {
+    if (!pendingDelete) return;
+    deleteTask(pendingDelete.id);
+    setPendingDelete(null);
   };
 
   const filtered = tasks.filter((t) => filter === 'all' ? true : filter === 'pending' ? !t.done : t.done);
@@ -59,6 +66,20 @@ export default function TasksPage() {
       {error && (
         <div className="flex items-center gap-2 px-4 py-3 mb-4 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm">
           <AlertCircle className="w-4 h-4 shrink-0" />{error}
+        </div>
+      )}
+
+      {pendingDelete && (
+        <div className="flex items-center justify-between gap-4 px-4 py-3 mb-4 rounded-xl border border-red-200 bg-red-50 dark:border-red-900/50 dark:bg-red-900/20">
+          <p className="text-sm text-red-700 dark:text-red-300">
+            Excluir <strong className="font-semibold">“{pendingDelete.title}”</strong>?
+          </p>
+          <div className="flex items-center gap-2 shrink-0">
+            <button onClick={() => setPendingDelete(null)} className="btn-ghost text-xs">{t('cancel')}</button>
+            <button onClick={confirmDelete} className="btn inline-flex items-center gap-1.5 bg-red-600 text-white hover:bg-red-700 text-xs">
+              <Trash2 className="w-3.5 h-3.5" /> {t('delete')}
+            </button>
+          </div>
         </div>
       )}
 
