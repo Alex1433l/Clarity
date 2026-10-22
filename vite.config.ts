@@ -11,6 +11,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['lucide-react', 'epubjs'],
+    exclude: ['lucide-react'],
   },
 });
