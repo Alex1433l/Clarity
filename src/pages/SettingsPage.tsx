@@ -1,13 +1,15 @@
-import { Settings, Moon, Sun, Bell, Globe, Database, Info, Palette } from 'lucide-react';
+import { Settings, Moon, Sun, Bell, Globe, Info, Palette } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import Card from '@/components/Card';
 import { useTheme, type ColorScheme } from '@/hooks/useTheme';
 import { useLanguage, type Language } from '@/hooks/useLanguage';
 import { cn } from '@/utils';
+import { useNotifications } from '@/hooks/useNotifications';
 
 export default function SettingsPage() {
   const { theme, setTheme, colorScheme, setColorScheme } = useTheme();
   const { lang, setLang, t } = useLanguage();
+  const { browserPermission, enabled, setEnabled, requestPermission } = useNotifications();
 
   const colorSchemes: { value: ColorScheme; label: string; color: string }[] = [
     { value: 'teal', label: 'Teal', color: '#0d9488' },
@@ -91,17 +93,24 @@ export default function SettingsPage() {
         {/* Preferences */}
         <Card className="p-5">
           <h3 className="text-sm font-semibold text-sand-800 dark:text-sand-100 mb-4">{t('preferences')}</h3>
-          <div className="space-y-1">
-            {[
-              { icon: Bell, label: t('notifications'), desc: t('notificationsDesc') },
-              { icon: Database, label: t('backup'), desc: t('backupDesc') },
-            ].map((item) => (
-              <div key={item.label} className="flex items-center gap-3 py-2.5">
-                <div className="w-10 h-10 rounded-xl bg-sand-100 dark:bg-sand-800 flex items-center justify-center"><item.icon className="w-5 h-5 text-sand-400" /></div>
-                <div className="flex-1"><p className="text-sm font-medium text-sand-700 dark:text-sand-200">{item.label}</p><p className="text-xs text-sand-400">{item.desc}</p></div>
-                <span className="chip bg-sand-100 dark:bg-sand-800 text-sand-400 text-[11px]">{t('soon')}</span>
-              </div>
-            ))}
+          <div className="flex items-center gap-3 py-2.5">
+            <div className="w-10 h-10 rounded-xl bg-sand-100 dark:bg-sand-800 flex items-center justify-center"><Bell className="w-5 h-5 text-sand-400" /></div>
+            <div className="flex-1 min-w-0"><p className="text-sm font-medium text-sand-700 dark:text-sand-200">{t('notifications')}</p><p className="text-xs text-sand-400">{t('notificationsDesc')}</p></div>
+            <div className="flex items-center gap-2 shrink-0">
+              {browserPermission === 'default' && (
+                <button onClick={() => requestPermission()} className="btn-primary text-xs">Ativar no sistema</button>
+              )}
+              {browserPermission === 'denied' && <span className="text-[11px] text-red-500">Bloqueadas</span>}
+              {browserPermission === 'unsupported' && <span className="text-[11px] text-sand-400">Indisponíveis</span>}
+              <button
+                onClick={() => setEnabled(!enabled)}
+                className={cn('relative h-6 w-11 rounded-full transition-colors', enabled ? 'bg-brand-600' : 'bg-sand-300 dark:bg-sand-700')}
+                aria-label={enabled ? 'Desativar notificações' : 'Ativar notificações'}
+                aria-pressed={enabled}
+              >
+                <span className={cn('absolute top-1 h-4 w-4 rounded-full bg-white transition-transform', enabled ? 'translate-x-6' : 'translate-x-1')} />
+              </button>
+            </div>
           </div>
         </Card>
 

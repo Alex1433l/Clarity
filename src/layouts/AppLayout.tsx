@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from '@/layouts/Sidebar';
 import MobileNav from '@/layouts/MobileNav';
 import Topbar from '@/layouts/Topbar';
+import NotificationToasts from '@/components/NotificationToasts';
+import TaskDueNotifications from '@/components/TaskDueNotifications';
 
 export default function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -35,6 +37,8 @@ export default function AppLayout() {
         </main>
       </div>
       <MobileNav />
+      <NotificationToasts />
+      <TaskDueNotifications />
     </div>
   );
 }

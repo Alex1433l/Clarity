@@ -14,12 +14,14 @@ import ReportsPage from '@/pages/ReportsPage';
 import LinksPage from '@/pages/LinksPage';
 import LearningPage from '@/pages/LearningPage';
 import SettingsPage from '@/pages/SettingsPage';
+import { NotificationsProvider } from '@/hooks/useNotifications';
 
 function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <AuthProvider>
+        <NotificationsProvider>
+          <AuthProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={<AuthPage />} />
@@ -39,7 +41,8 @@ function App() {
               </Route>
             </Routes>
           </BrowserRouter>
-        </AuthProvider>
+          </AuthProvider>
+          </NotificationsProvider>
       </LanguageProvider>
     </ThemeProvider>
   );
