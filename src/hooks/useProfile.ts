@@ -7,6 +7,7 @@ export interface Profile {
   username: string;
   avatar_path: string | null;
   avatar_url: string | null;
+  onboarding_completed: boolean;
 }
 
 const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
@@ -29,7 +30,7 @@ export function useProfile() {
     setError(null);
     const { data, error: fetchError } = await supabase
       .from('profiles')
-      .select('user_id, username, avatar_path')
+      .select('user_id, username, avatar_path, onboarding_completed')
       .eq('user_id', user.id)
       .maybeSingle();
 
@@ -82,6 +83,22 @@ export function useProfile() {
     return null;
   }, [loadProfile]);
 
+  const completeOnboarding = useCallback(async () => {
+    const { data: currentUser } = await supabase.auth.getUser();
+    if (!currentUser.user) return 'Sessão expirada. Entre novamente.';
+
+    const { error: saveError } = await supabase.from('profiles').upsert({
+      user_id: currentUser.user.id,
+      username: profile?.username ?? 'Alex',
+      onboarding_completed: true,
+      updated_at: new Date().toISOString(),
+    });
+
+    if (saveError) return 'Não foi possível salvar esta preferência.';
+    await loadProfile();
+    return null;
+  }, [loadProfile, profile?.username]);
+
   const uploadAvatar = useCallback(async (file: File) => {
     const { data: currentUser } = await supabase.auth.getUser();
     if (!currentUser.user) return { error: 'Sessão expirada. Entre novamente.', path: null };
@@ -100,5 +117,5 @@ export function useProfile() {
     return { error: null, path };
   }, []);
 
-  return { profile, loading, error, saveProfile, uploadAvatar, refetch: loadProfile };
+  return { profile, loading, error, saveProfile, completeOnboarding, uploadAvatar, refetch: loadProfile };
 }

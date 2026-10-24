@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Settings, Moon, Sun, Bell, Globe, Info, Palette, Camera, Loader2, UserRound } from 'lucide-react';
+import { Settings, Moon, Sun, Bell, Globe, Info, Palette, Camera, Loader2, UserRound, CircleHelp } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import Card from '@/components/Card';
 import { useTheme, type ColorScheme } from '@/hooks/useTheme';
@@ -177,6 +177,15 @@ export default function SettingsPage() {
                 <span className={cn('absolute top-1 h-4 w-4 rounded-full bg-white transition-transform', enabled ? 'translate-x-6' : 'translate-x-1')} />
               </button>
             </div>
+          </div>
+        </Card>
+
+        {/* Guided tour */}
+        <Card className="p-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 dark:bg-brand-900/30"><CircleHelp className="h-5 w-5 text-brand-600 dark:text-brand-400" /></div>
+            <div className="min-w-0 flex-1"><p className="text-sm font-semibold text-sand-800 dark:text-sand-100">{t('howToUse')}</p><p className="text-xs text-sand-400">{t('onboardingWelcome')}</p></div>
+            <button type="button" onClick={() => window.dispatchEvent(new Event('clarity:open-tour'))} className="btn-outline shrink-0 text-xs">{t('howToUse')}</button>
           </div>
         </Card>
 

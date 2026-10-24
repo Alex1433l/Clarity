@@ -1,14 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '@/layouts/Sidebar';
 import MobileNav from '@/layouts/MobileNav';
 import Topbar from '@/layouts/Topbar';
 import NotificationToasts from '@/components/NotificationToasts';
 import TaskDueNotifications from '@/components/TaskDueNotifications';
+import GuidedTour from '@/components/GuidedTour';
+import { useAuth } from '@/hooks/useAuth';
+import { useProfile } from '@/hooks/useProfile';
 
 export default function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [tourOpen, setTourOpen] = useState(false);
+  const { user } = useAuth();
+  const { profile, loading: profileLoading, error: profileError, completeOnboarding } = useProfile();
+
+  useEffect(() => {
+    if (user && !profileLoading && !profileError && profile?.onboarding_completed !== true) {
+      setTourOpen(true);
+    }
+  }, [profile?.onboarding_completed, profileError, profileLoading, user]);
+
+  useEffect(() => {
+    const openTour = () => setTourOpen(true);
+    window.addEventListener('clarity:open-tour', openTour);
+    return () => window.removeEventListener('clarity:open-tour', openTour);
+  }, []);
 
   const handleMenuClick = () => {
     if (sidebarCollapsed) {
@@ -39,6 +57,7 @@ export default function AppLayout() {
       <MobileNav />
       <NotificationToasts />
       <TaskDueNotifications />
+      {tourOpen && <GuidedTour onClose={() => setTourOpen(false)} onComplete={completeOnboarding} />}
     </div>
   );
 }
