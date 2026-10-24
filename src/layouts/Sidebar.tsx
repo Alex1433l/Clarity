@@ -3,6 +3,7 @@ import { X, LogOut, PanelLeftClose } from 'lucide-react';
 import { navItems } from '@/config/navigation';
 import { useLanguage, type Language } from '@/hooks/useLanguage';
 import { useAuth } from '@/hooks/useAuth';
+import { useProfile } from '@/hooks/useProfile';
 import { cn } from '@/utils';
 
 const dailyPhrases: Record<Language, string[]> = {
@@ -55,6 +56,7 @@ export default function Sidebar({ open, onClose, collapsed, onCollapse }: Sideba
   const { t, lang } = useLanguage();
   const dailyPhrase = dailyPhrases[lang][Math.floor(Math.random() * dailyPhrases[lang].length)];
   const { user, signOut } = useAuth();
+  const { profile } = useProfile();
 
   return (
     <>
@@ -122,7 +124,7 @@ export default function Sidebar({ open, onClose, collapsed, onCollapse }: Sideba
                 </span>
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-medium text-sand-700 dark:text-sand-300 truncate">{user.email}</p>
+                <p className="text-xs font-medium text-sand-700 dark:text-sand-300 truncate">{profile?.username ?? 'Alex'}</p>
               </div>
               <button
                 onClick={() => signOut()}

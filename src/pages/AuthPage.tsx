@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, AlertCircle, Mail, Lock } from 'lucide-react';
+import { Loader2, AlertCircle, Mail, Lock, UserRound } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useProfile } from '@/hooks/useProfile';
 
 export default function AuthPage() {
   const { signIn, signUp } = useAuth();
+  const { saveProfile } = useProfile();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -33,6 +36,12 @@ export default function AuthPage() {
       const { error: signInError } = await signIn(email, password);
       if (signInError) {
         setError(signInError);
+        setLoading(false);
+        return;
+      }
+      const profileError = await saveProfile(username);
+      if (profileError) {
+        setError(profileError);
         setLoading(false);
         return;
       }
@@ -84,6 +93,24 @@ export default function AuthPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {mode === 'signup' && (
+              <div>
+                <label className="block text-xs font-medium text-sand-500 dark:text-sand-400 mb-1.5">{t('username')}</label>
+                <div className="relative">
+                  <UserRound className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sand-300 dark:text-sand-600" />
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    minLength={2}
+                    maxLength={40}
+                    placeholder={t('usernamePlaceholder')}
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-sand-50 dark:bg-sand-800/60 border border-sand-200 dark:border-sand-700 text-sm text-sand-900 dark:text-white placeholder:text-sand-300 dark:placeholder:text-sand-600 focus:outline-none focus:ring-2 focus:ring-brand-400 dark:focus:ring-brand-600"
+                  />
+                </div>
+              </div>
+            )}
             <div>
               <label className="block text-xs font-medium text-sand-500 dark:text-sand-400 mb-1.5">{t('email')}</label>
               <div className="relative">

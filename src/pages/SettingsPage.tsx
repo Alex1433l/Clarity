@@ -1,15 +1,55 @@
-import { Settings, Moon, Sun, Bell, Globe, Info, Palette } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Settings, Moon, Sun, Bell, Globe, Info, Palette, Camera, Loader2, UserRound } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import Card from '@/components/Card';
 import { useTheme, type ColorScheme } from '@/hooks/useTheme';
 import { useLanguage, type Language } from '@/hooks/useLanguage';
 import { cn } from '@/utils';
 import { useNotifications } from '@/hooks/useNotifications';
+import { useProfile } from '@/hooks/useProfile';
 
 export default function SettingsPage() {
   const { theme, setTheme, colorScheme, setColorScheme } = useTheme();
   const { lang, setLang, t } = useLanguage();
   const { browserPermission, enabled, setEnabled, requestPermission } = useNotifications();
+  const { profile, saveProfile, uploadAvatar } = useProfile();
+  const [username, setUsername] = useState('Alex');
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [profileMessage, setProfileMessage] = useState<string | null>(null);
+  const [profileSaving, setProfileSaving] = useState(false);
+
+  useEffect(() => {
+    if (profile) {
+      setUsername(profile.username);
+      setAvatarPreview(profile.avatar_url);
+    }
+  }, [profile]);
+
+  const handleSaveProfile = async () => {
+    setProfileSaving(true);
+    setProfileMessage(null);
+    let avatarPath: string | null | undefined;
+    if (avatarFile) {
+      const upload = await uploadAvatar(avatarFile);
+      if (upload.error) {
+        setProfileMessage(upload.error);
+        setProfileSaving(false);
+        return;
+      }
+      avatarPath = upload.path;
+    }
+    const error = await saveProfile(username, avatarPath);
+    setProfileMessage(error ?? t('profileSaved'));
+    if (!error) setAvatarFile(null);
+    setProfileSaving(false);
+  };
+
+  const handleAvatarChange = (file: File | undefined) => {
+    if (!file) return;
+    setAvatarFile(file);
+    setAvatarPreview(URL.createObjectURL(file));
+  };
 
   const colorSchemes: { value: ColorScheme; label: string; color: string }[] = [
     { value: 'teal', label: 'Teal', color: '#0d9488' },
@@ -28,6 +68,32 @@ export default function SettingsPage() {
       <PageHeader title={t('settingsTitle')} subtitle={t('settingsSubtitle')} icon={Settings} />
 
       <div className="space-y-6">
+        {/* Profile */}
+        <Card className="p-5">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-brand-50 dark:bg-brand-900/30 flex items-center justify-center"><UserRound className="w-5 h-5 text-brand-600 dark:text-brand-400" /></div>
+            <div><h3 className="text-sm font-semibold text-sand-800 dark:text-sand-100">{t('profile')}</h3><p className="text-xs text-sand-400">{t('profileDesc')}</p></div>
+          </div>
+          <div className="flex items-center gap-4">
+            <label className="relative h-16 w-16 shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-sand-100 dark:bg-sand-800">
+              {avatarPreview ? <img src={avatarPreview} alt={username} className="h-full w-full object-cover" /> : <UserRound className="absolute inset-0 m-auto h-7 w-7 text-sand-400" />}
+              <span className="absolute inset-x-0 bottom-0 flex justify-center bg-sand-950/60 py-1 text-white"><Camera className="h-3.5 w-3.5" /></span>
+              <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={(event) => handleAvatarChange(event.target.files?.[0])} />
+            </label>
+            <div className="min-w-0 flex-1">
+              <label className="mb-1.5 block text-xs font-medium text-sand-500 dark:text-sand-400">{t('username')}</label>
+              <input value={username} onChange={(event) => setUsername(event.target.value)} maxLength={40} className="input-field" placeholder={t('usernamePlaceholder')} />
+              <p className="mt-1 text-[11px] text-sand-400">{t('avatarHint')}</p>
+            </div>
+          </div>
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <p className="text-xs text-brand-600 dark:text-brand-400">{profileMessage}</p>
+            <button onClick={handleSaveProfile} disabled={profileSaving} className="btn-primary shrink-0 text-xs disabled:opacity-50">
+              {profileSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : t('saveProfile')}
+            </button>
+          </div>
+        </Card>
+
         {/* Appearance */}
         <Card className="p-5">
           <h3 className="text-sm font-semibold text-sand-800 dark:text-sand-100 mb-4">{t('appearance')}</h3>
