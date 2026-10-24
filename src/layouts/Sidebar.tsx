@@ -1,9 +1,48 @@
 import { NavLink } from 'react-router-dom';
 import { X, LogOut, PanelLeftClose } from 'lucide-react';
 import { navItems } from '@/config/navigation';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useLanguage, type Language } from '@/hooks/useLanguage';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/utils';
+
+const dailyPhrases: Record<Language, string[]> = {
+  pt: [
+    'Todo dia é uma nova oportunidade de fazer o que ontem você adiou.',
+    'A paz começa quando você aceita que nem tudo está sob seu controle.',
+    'A disciplina leva você a lugares onde a motivação não consegue mantê-lo.',
+    'Não permita que a opinião alheia se torne a medida do seu valor.',
+    'A sabedoria começa quando reconhecemos o quanto ainda temos a aprender.',
+    'Você não precisa resolver a vida inteira hoje; cuide com honestidade do próximo passo.',
+    'A gentileza custa pouco e pode aliviar um peso que você desconhece.',
+    'Não confunda estar ocupado com estar avançando.',
+    'A gratidão não exige uma vida perfeita; exige atenção ao bem que ainda existe.',
+    'Viva cada dia com coragem para agir, humildade para aprender e gratidão por estar aqui.',
+  ],
+  es: [
+    'Cada día es una nueva oportunidad para hacer lo que ayer pospusiste.',
+    'La paz comienza cuando aceptas que no todo está bajo tu control.',
+    'La disciplina te lleva a lugares donde la motivación no logra mantenerte.',
+    'No permitas que la opinión ajena se convierta en la medida de tu valor.',
+    'La sabiduría comienza cuando reconocemos cuánto nos queda por aprender.',
+    'No necesitas resolver toda la vida hoy; cuida con honestidad el siguiente paso.',
+    'La bondad cuesta poco y puede aliviar un peso que desconoces.',
+    'No confundas estar ocupado con estar avanzando.',
+    'La gratitud no exige una vida perfecta; exige atención al bien que aún existe.',
+    'Vive cada día con valor para actuar, humildad para aprender y gratitud por estar aquí.',
+  ],
+  en: [
+    'Every day is a new opportunity to do what you postponed yesterday.',
+    'Peace begins when you accept that not everything is under your control.',
+    'Discipline takes you where motivation cannot keep you.',
+    'Do not let someone else’s opinion become the measure of your worth.',
+    'Wisdom begins when we recognize how much we still have to learn.',
+    'You do not have to solve your whole life today; honestly care for the next step.',
+    'Kindness costs little and may ease a burden you know nothing about.',
+    'Do not confuse being busy with moving forward.',
+    'Gratitude does not require a perfect life; it requires noticing the good that remains.',
+    'Live each day with courage to act, humility to learn, and gratitude for being here.',
+  ],
+};
 
 interface SidebarProps {
   open: boolean;
@@ -13,7 +52,8 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ open, onClose, collapsed, onCollapse }: SidebarProps) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const dailyPhrase = dailyPhrases[lang][Math.floor(Math.random() * dailyPhrases[lang].length)];
   const { user, signOut } = useAuth();
 
   return (
@@ -95,7 +135,7 @@ export default function Sidebar({ open, onClose, collapsed, onCollapse }: Sideba
           )}
           <div className="card p-3 bg-gradient-to-br from-brand-50 to-brand-100/60 dark:from-brand-900/30 dark:to-brand-900/10 border-brand-200/60 dark:border-brand-800/40">
             <p className="text-sm font-semibold text-brand-800 dark:text-brand-200">{t('findClarity')}</p>
-            <p className="text-xs text-brand-700/80 dark:text-brand-300/70 mt-0.5 leading-relaxed">{t('findClarityDesc')}</p>
+            <p className="text-xs text-brand-700/80 dark:text-brand-300/70 mt-0.5 leading-relaxed">{dailyPhrase}</p>
           </div>
         </div>
       </aside>
