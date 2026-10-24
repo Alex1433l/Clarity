@@ -109,10 +109,12 @@ export function useTasks() {
   const reorderTasks = useCallback(async (reordered: Task[]) => {
     const prev = tasks;
     setTasks(reordered);
-    const updates = reordered.map((t, i) => ({ id: t.id, sort_order: i }));
-    const { error: updateError } = await supabase
-      .from('tasks')
-      .upsert(updates, { onConflict: 'id' });
+    const results = await Promise.all(
+      reordered.map((task, index) =>
+        supabase.from('tasks').update({ sort_order: index }).eq('id', task.id)
+      )
+    );
+    const updateError = results.find((result) => result.error)?.error;
     if (updateError) {
       setTasks(prev);
       setError(updateError.message);

@@ -693,7 +693,7 @@ export default function TodayPage() {
 
       {/* Modals */}
       <TaskModal open={taskModalOpen} onClose={() => setTaskModalOpen(false)} onSave={handleSaveTask} task={editingTask} />
-      <GoalModal open={goalModalOpen} onClose={() => setGoalModalOpen(false)} onSave={handleSaveGoal} goal={editingGoal} areas={areas} onCreateArea={createArea} onDeleteArea={deleteArea} />
+      <GoalModal open={goalModalOpen} onClose={() => setGoalModalOpen(false)} onSave={handleSaveGoal} goal={editingGoal} areas={areas} onCreateArea={(name) => { void createArea({ name }); }} onDeleteArea={deleteArea} />
       <HabitModal open={habitModalOpen} onClose={() => setHabitModalOpen(false)} onSave={handleSaveHabit} habit={editingHabit} />
     </div>
   );

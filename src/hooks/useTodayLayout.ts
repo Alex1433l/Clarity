@@ -11,11 +11,12 @@ function getInitialLayout(): SectionId[] {
   if (stored) {
     try {
       const parsed = JSON.parse(stored) as SectionId[];
-      const known = new Set(parsed);
-      for (const s of ALL_SECTIONS) {
-        if (!known.has(s)) parsed.push(s);
+      const valid = parsed.filter((section): section is SectionId => ALL_SECTIONS.includes(section));
+      const unique = [...new Set(valid)];
+      for (const section of ALL_SECTIONS) {
+        if (!unique.includes(section)) unique.push(section);
       }
-      return parsed;
+      return unique;
     } catch {
       return ALL_SECTIONS;
     }

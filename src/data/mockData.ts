@@ -10,11 +10,11 @@ import type {
 const today = new Date().toISOString().slice(0, 10);
 
 export const mockTasks: Task[] = [
-  { id: 't1', title: 'Revisar e-mails do trabalho', done: false, priority: 'high', date: today, category: 'Trabalho' },
-  { id: 't2', title: 'Preparar apresentação de segunda', done: false, priority: 'medium', date: today, category: 'Trabalho' },
-  { id: 't3', title: 'Comprar mantimentos da semana', done: false, priority: 'low', date: today, category: 'Pessoal' },
-  { id: 't4', title: 'Caminhada de 30 minutos', done: true, priority: 'medium', date: today, category: 'Saúde' },
-  { id: 't5', title: 'Ligar para o dentista', done: false, priority: 'medium', date: today, category: 'Pessoal' },
+  { id: 't1', title: 'Revisar e-mails do trabalho', done: false, priority: 'high', date: today, time: null, category: 'Trabalho', sort_order: 0 },
+  { id: 't2', title: 'Preparar apresentação de segunda', done: false, priority: 'medium', date: today, time: null, category: 'Trabalho', sort_order: 1 },
+  { id: 't3', title: 'Comprar mantimentos da semana', done: false, priority: 'low', date: today, time: null, category: 'Pessoal', sort_order: 2 },
+  { id: 't4', title: 'Caminhada de 30 minutos', done: true, priority: 'medium', date: today, time: null, category: 'Saúde', sort_order: 3 },
+  { id: 't5', title: 'Ligar para o dentista', done: false, priority: 'medium', date: today, time: null, category: 'Pessoal', sort_order: 4 },
 ];
 
 export const mockGoals: Goal[] = [
@@ -22,24 +22,27 @@ export const mockGoals: Goal[] = [
     id: 'g1',
     title: 'Aprender espanhol até o nível B1',
     description: 'Estudar 20 minutos por dia e praticar conversação 2x por semana.',
-    category: 'Estudos',
+    life_area_id: null,
     deadline: '2026-12-31',
+    sort_order: 0,
     progress: 35,
   },
   {
     id: 'g2',
     title: 'Correr meia maratona',
     description: 'Treinar progressivamente até completar 21km.',
-    category: 'Saúde',
+    life_area_id: null,
     deadline: '2026-10-15',
+    sort_order: 1,
     progress: 50,
   },
   {
     id: 'g3',
     title: 'Ler 12 livros este ano',
     description: 'Um livro por mês, priorizando desenvolvimento pessoal.',
-    category: 'Pessoal',
+    life_area_id: null,
     deadline: '2026-12-31',
+    sort_order: 2,
     progress: 58,
   },
 ];
@@ -56,11 +59,11 @@ export const mockJournal: JournalEntry[] = [
 ];
 
 export const mockLinks: LinkItem[] = [
-  { id: 'l1', name: 'Gmail', url: 'https://mail.google.com', category: 'Trabalho', icon: 'Mail' },
-  { id: 'l2', name: 'Google Drive', url: 'https://drive.google.com', category: 'Trabalho', icon: 'HardDrive' },
-  { id: 'l3', name: 'YouTube Studio', url: 'https://studio.youtube.com', category: 'Trabalho', icon: 'Youtube' },
-  { id: 'l4', name: 'Notion', url: 'https://notion.so', category: 'Estudos', icon: 'FileText' },
-  { id: 'l5', name: 'Calendário', url: 'https://calendar.google.com', category: 'Pessoal', icon: 'Calendar' },
+  { id: 'l1', name: 'Gmail', url: 'https://mail.google.com', folder_id: null, sort_order: 0 },
+  { id: 'l2', name: 'Google Drive', url: 'https://drive.google.com', folder_id: null, sort_order: 1 },
+  { id: 'l3', name: 'YouTube Studio', url: 'https://studio.youtube.com', folder_id: null, sort_order: 2 },
+  { id: 'l4', name: 'Notion', url: 'https://notion.so', folder_id: null, sort_order: 3 },
+  { id: 'l5', name: 'Calendário', url: 'https://calendar.google.com', folder_id: null, sort_order: 4 },
 ];
 
 export const mockGratitude: GratitudeItem[] = [

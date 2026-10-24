@@ -165,10 +165,12 @@ export function useHabits() {
   const reorderHabits = useCallback(async (reordered: HabitWithStats[]) => {
     const prev = habits;
     setHabits(reordered);
-    const updates = reordered.map((h, i) => ({ id: h.id, sort_order: i }));
-    const { error: updateError } = await supabase
-      .from('habits')
-      .upsert(updates, { onConflict: 'id' });
+    const results = await Promise.all(
+      reordered.map((habit, index) =>
+        supabase.from('habits').update({ sort_order: index }).eq('id', habit.id)
+      )
+    );
+    const updateError = results.find((result) => result.error)?.error;
     if (updateError) {
       setHabits(prev);
       setError(updateError.message);

@@ -90,10 +90,12 @@ export function useGoals() {
   const reorderGoals = useCallback(async (reordered: Goal[]) => {
     const prev = goals;
     setGoals(reordered);
-    const updates = reordered.map((g, i) => ({ id: g.id, sort_order: i }));
-    const { error: updateError } = await supabase
-      .from('goals')
-      .upsert(updates, { onConflict: 'id' });
+    const results = await Promise.all(
+      reordered.map((goal, index) =>
+        supabase.from('goals').update({ sort_order: index }).eq('id', goal.id)
+      )
+    );
+    const updateError = results.find((result) => result.error)?.error;
     if (updateError) {
       setGoals(prev);
       setError(updateError.message);
