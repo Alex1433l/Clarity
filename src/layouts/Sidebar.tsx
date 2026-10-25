@@ -196,7 +196,7 @@ export default function Sidebar({ open, onClose, collapsed, onCollapse }: Sideba
               </button>
             </div>
           )}
-          <div className="card p-3 bg-gradient-to-br from-brand-50 to-brand-100/60 dark:from-brand-900/30 dark:to-brand-900/10 border-brand-200/60 dark:border-brand-800/40">
+          <div className="sidebar-phrase card p-3 bg-gradient-to-br from-brand-50 to-brand-100/60 dark:from-brand-900/30 dark:to-brand-900/10 border-brand-200/60 dark:border-brand-800/40">
             <p className="text-sm font-semibold text-brand-800 dark:text-brand-200">{t('findClarity')}</p>
             <p className="text-xs text-brand-700/80 dark:text-brand-300/70 mt-0.5 leading-relaxed">{dailyPhrase}</p>
           </div>

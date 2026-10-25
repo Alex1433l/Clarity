@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Rajdhani:wght@500;600;700&family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,51 +12,124 @@
     color-scheme: dark;
   }
 
-  /* ---- Color schemes ---- */
-  /* Teal (default) */
+  /* ─────────────────────────────────────────────────────────────
+     GAMER — scheme-teal
+     Neon teal on deep slate backgrounds, sharp edges, glows
+  ───────────────────────────────────────────────────────────── */
   :root,
   .scheme-teal {
-    --brand-50: 240 253 249;
-    --brand-100: 204 251 239;
-    --brand-200: 153 246 224;
-    --brand-300: 94 234 212;
-    --brand-400: 45 212 191;
-    --brand-500: 20 184 166;
-    --brand-600: 13 148 136;
-    --brand-700: 15 118 110;
-    --brand-800: 17 94 86;
-    --brand-900: 19 78 74;
-    --brand-950: 4 47 46;
+    --brand-50:  220 255 250;
+    --brand-100: 170 255 240;
+    --brand-200:  80 240 210;
+    --brand-300:  0 220 185;
+    --brand-400:  0 195 160;
+    --brand-500:  0 168 137;
+    --brand-600:  0 138 112;
+    --brand-700:  0 108  87;
+    --brand-800:  0  80  64;
+    --brand-900:  0  54  43;
+    --brand-950:  0  28  22;
+
+    /* geometry */
+    --radius-card: 0.75rem;
+    --radius-btn:  0.5rem;
+    --radius-nav:  0.625rem;
+    --radius-input: 0.625rem;
+
+    /* shadows — glow style */
+    --shadow-soft:    0 0 0 1px rgb(0 168 137 / 0.08), 0 2px 6px -1px rgb(0 0 0 / 0.18);
+    --shadow-card:    0 0 0 1px rgb(0 168 137 / 0.12), 0 4px 20px -4px rgb(0 0 0 / 0.28);
+    --shadow-elevated:0 0 0 1px rgb(0 168 137 / 0.16), 0 8px 32px -6px rgb(0 0 0 / 0.36);
+    --shadow-glow:    0 0 20px rgb(0 168 137 / 0.30), 0 0 6px rgb(0 195 160 / 0.20);
+
+    /* nav active accent */
+    --nav-active-bg:   6 20 18;
+    --nav-active-text: 0 220 185;
   }
 
-  /* Orange */
+  /* ─────────────────────────────────────────────────────────────
+     OUSADO — scheme-orange
+     Warm amber/coral, bold, high contrast, slightly rounded
+  ───────────────────────────────────────────────────────────── */
   .scheme-orange {
-    --brand-50: 255 247 237;
-    --brand-100: 255 237 213;
-    --brand-200: 254 215 170;
-    --brand-300: 253 186 116;
-    --brand-400: 251 146 60;
-    --brand-500: 249 115 22;
-    --brand-600: 234 88 12;
-    --brand-700: 194 65 12;
-    --brand-800: 154 52 18;
-    --brand-900: 124 45 18;
-    --brand-950: 67 20 7;
+    --brand-50:  255 248 240;
+    --brand-100: 255 234 210;
+    --brand-200: 255 205 155;
+    --brand-300: 255 170  90;
+    --brand-400: 255 135  45;
+    --brand-500: 244 105  10;
+    --brand-600: 220  82   0;
+    --brand-700: 180  62   0;
+    --brand-800: 140  46   0;
+    --brand-900: 105  34   0;
+    --brand-950:  60  18   0;
+
+    --radius-card: 1.25rem;
+    --radius-btn:  1rem;
+    --radius-nav:  1rem;
+    --radius-input: 0.875rem;
+
+    --shadow-soft:    0 1px 3px 0 rgb(0 0 0 / 0.06), 0 2px 8px -2px rgb(0 0 0 / 0.08);
+    --shadow-card:    0 2px 8px -2px rgb(0 0 0 / 0.08), 0 8px 24px -6px rgb(0 0 0 / 0.10);
+    --shadow-elevated:0 4px 16px -4px rgb(0 0 0 / 0.12), 0 16px 40px -8px rgb(0 0 0 / 0.12);
+    --shadow-glow:    0 6px 32px rgb(244 105 10 / 0.28), 0 2px 8px rgb(255 135 45 / 0.20);
+
+    --nav-active-bg:   60 25  10;
+    --nav-active-text: 255 170 90;
   }
 
-  /* Gray */
+  /* ─────────────────────────────────────────────────────────────
+     CLEAN — scheme-gray
+     Monochrome, airy, ultra-minimal, generous whitespace
+  ───────────────────────────────────────────────────────────── */
   .scheme-gray {
-    --brand-50: 248 250 252;
-    --brand-100: 241 245 249;
-    --brand-200: 226 232 240;
-    --brand-300: 203 213 225;
-    --brand-400: 148 163 184;
-    --brand-500: 100 116 139;
-    --brand-600: 71 85 105;
-    --brand-700: 51 65 85;
-    --brand-800: 30 41 59;
-    --brand-900: 15 23 42;
-    --brand-950: 2 6 23;
+    --brand-50:  250 250 250;
+    --brand-100: 240 240 241;
+    --brand-200: 220 220 223;
+    --brand-300: 190 190 196;
+    --brand-400: 145 145 155;
+    --brand-500: 100 100 110;
+    --brand-600:  70  70  80;
+    --brand-700:  48  48  58;
+    --brand-800:  30  30  38;
+    --brand-900:  16  16  22;
+    --brand-950:   6   6  10;
+
+    --radius-card: 1.75rem;
+    --radius-btn:  2rem;
+    --radius-nav:  2rem;
+    --radius-input: 1.25rem;
+
+    --shadow-soft:    0 1px 2px 0 rgb(0 0 0 / 0.03), 0 1px 4px 0 rgb(0 0 0 / 0.04);
+    --shadow-card:    0 1px 4px 0 rgb(0 0 0 / 0.04), 0 4px 16px -4px rgb(0 0 0 / 0.06);
+    --shadow-elevated:0 2px 12px -2px rgb(0 0 0 / 0.06), 0 8px 32px -6px rgb(0 0 0 / 0.08);
+    --shadow-glow:    0 2px 16px rgb(70 70 80 / 0.14);
+
+    --nav-active-bg:   240 240 241;
+    --nav-active-text:  30  30  38;
+  }
+  .dark.scheme-gray {
+    --nav-active-bg:   30  30  38;
+    --nav-active-text: 220 220 223;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     THEME FONT FACES
+  ───────────────────────────────────────────────────────────── */
+  .scheme-teal {
+    --font-display: 'Rajdhani', 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --letter-spacing-display: 0.05em;
+  }
+  .scheme-orange {
+    --font-display: 'Syne', 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --letter-spacing-display: 0.01em;
+  }
+  .scheme-gray {
+    --font-display: 'DM Sans', 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --letter-spacing-display: -0.02em;
   }
 
   html {
@@ -68,6 +141,7 @@
   body {
     @apply bg-sand-50 text-sand-900 antialiased;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    font-family: var(--font-body, 'Inter', system-ui, sans-serif);
   }
   .dark body {
     @apply bg-sand-950 text-sand-100;
@@ -80,43 +154,86 @@
     @apply bg-brand-800 text-brand-100;
   }
 
-  /* Scrollbar */
+  /* ─── Gamer: dark sidebar ─── */
+  .scheme-teal aside {
+    background-color: #040f0d;
+    border-color: rgb(0 168 137 / 0.12);
+  }
+  .scheme-teal.dark aside {
+    background-color: #020b09;
+  }
+  /* ─── Gamer: glowing card borders ─── */
+  .scheme-teal .card {
+    border-color: rgb(0 168 137 / 0.16);
+  }
+  /* ─── Orange: warm backgrounds ─── */
+  .scheme-orange body {
+    background-color: #fff8f3;
+  }
+  .dark.scheme-orange body {
+    background-color: #120600;
+  }
+  /* ─── Clean: neutral backgrounds ─── */
+  .scheme-gray body {
+    background-color: #f9f9fa;
+  }
+  .dark.scheme-gray body {
+    background-color: #0e0e12;
+  }
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-sand-300 rounded-full;
+    background-color: #d6d3d1;
+    border-radius: 9999px;
   }
   .dark ::-webkit-scrollbar-thumb {
-    @apply bg-sand-700;
+    background-color: #44403c;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-sand-400;
+    background-color: #a8a29e;
   }
   .dark ::-webkit-scrollbar-thumb:hover {
-    @apply bg-sand-600;
+    background-color: #57534e;
   }
 }
 
 @layer components {
+  /* ─── Card ─── */
   .card {
-    @apply bg-white dark:bg-sand-900 border border-sand-200/80 dark:border-sand-800 rounded-lg shadow-soft;
+    @apply bg-white dark:bg-sand-900 border border-sand-200/80 dark:border-sand-800;
+    border-radius: var(--radius-card, 0.75rem);
+    box-shadow: var(--shadow-soft);
   }
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-card hover:border-sand-300 dark:hover:border-sand-700;
+    @apply transition-all duration-200;
   }
+  .card-hover:hover {
+    box-shadow: var(--shadow-card);
+    @apply border-sand-300 dark:border-sand-700;
+  }
+
+  /* ─── Inputs ─── */
   .input-field {
-    @apply w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-sand-900 border border-sand-200 dark:border-sand-800 text-sand-900 dark:text-sand-100 placeholder:text-sand-400 dark:placeholder:text-sand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/60 focus:border-brand-400 transition;
+    @apply w-full px-3.5 py-2.5 bg-white dark:bg-sand-900 border border-sand-200 dark:border-sand-800 text-sand-900 dark:text-sand-100 placeholder:text-sand-400 dark:placeholder:text-sand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/60 focus:border-brand-400 transition;
+    border-radius: var(--radius-input, 0.75rem);
   }
+
+  /* ─── Buttons ─── */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 font-medium text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed;
+    border-radius: var(--radius-btn, 0.75rem);
   }
   .btn-primary {
     @apply btn bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 focus:ring-brand-500/50 shadow-sm;
+    box-shadow: var(--shadow-glow, none);
+  }
+  .btn-primary:hover {
+    box-shadow: var(--shadow-glow, none), 0 4px 12px -2px rgb(0 0 0 / 0.14);
   }
   .btn-ghost {
     @apply btn text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800 focus:ring-sand-400/30;
@@ -127,12 +244,29 @@
   .chip {
     @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
   }
+
+  /* ─── Nav links ─── */
   .nav-link {
-    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800/60 hover:text-sand-900 dark:hover:text-sand-50 transition-all duration-150;
+    @apply flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800/60 hover:text-sand-900 dark:hover:text-sand-50 transition-all duration-150;
+    border-radius: var(--radius-nav, 0.75rem);
   }
   .nav-link-active {
-    @apply bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-900/50 hover:text-brand-700 dark:hover:text-brand-300;
+    background-color: rgb(var(--nav-active-bg, var(--brand-50)) / 0.12);
+    color: rgb(var(--nav-active-text, var(--brand-700)));
+    @apply hover:bg-brand-100/20 dark:hover:bg-brand-900/50;
   }
+  .scheme-teal .nav-link-active {
+    background-color: rgb(0 168 137 / 0.14);
+    color: rgb(0 220 185);
+    text-shadow: 0 0 12px rgb(0 195 160 / 0.6);
+  }
+  .scheme-orange .nav-link-active {
+    @apply bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300;
+  }
+  .scheme-gray .nav-link-active {
+    @apply bg-sand-100 text-sand-800 dark:bg-sand-800 dark:text-sand-100;
+  }
+
   .section-title {
     @apply text-xs font-semibold uppercase tracking-wider text-sand-400 dark:text-sand-500;
   }
@@ -149,6 +283,101 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Gamer scanline overlay (very subtle) */
+  .scheme-teal .scanline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgb(0 0 0 / 0.015) 2px,
+      rgb(0 0 0 / 0.015) 4px
+    );
+    border-radius: inherit;
+    z-index: 0;
+  }
+
+  /* Gamer neon glow utility */
+  .glow-brand {
+    box-shadow: var(--shadow-glow, none);
+  }
+
+  /* Clean divider */
+  .scheme-gray .divider {
+    @apply border-sand-200/60 dark:border-sand-800/60;
+  }
+}
+
+/* ─── Theme-aware font faces applied to display elements ─── */
+.scheme-teal .font-display,
+.scheme-teal h1,
+.scheme-teal h2 {
+  font-family: 'Rajdhani', 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+.scheme-orange .font-display,
+.scheme-orange h1,
+.scheme-orange h2 {
+  font-family: 'Syne', 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+.scheme-gray .font-display,
+.scheme-gray h1,
+.scheme-gray h2 {
+  font-family: 'DM Sans', 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+
+/* ─── Gamer: Topbar dark glass ─── */
+.scheme-teal header.sticky {
+  background: rgb(4 15 13 / 0.85);
+  border-bottom-color: rgb(0 168 137 / 0.14);
+  backdrop-filter: blur(16px);
+}
+
+/* ─── Orange: warm topbar tint ─── */
+.scheme-orange header.sticky {
+  background: rgb(255 248 240 / 0.85);
+  border-bottom-color: rgb(244 105 10 / 0.10);
+}
+.dark.scheme-orange header.sticky {
+  background: rgb(19 8 0 / 0.88);
+}
+
+/* ─── Clean: pure topbar ─── */
+.scheme-gray header.sticky {
+  background: rgb(249 249 250 / 0.90);
+  border-bottom-color: rgb(220 220 223 / 0.50);
+}
+.dark.scheme-gray header.sticky {
+  background: rgb(14 14 18 / 0.90);
+  border-bottom-color: rgb(48 48 58 / 0.60);
+}
+
+/* ─── Gamer: accent sidebar footer card ─── */
+.scheme-teal .sidebar-phrase {
+  background: linear-gradient(135deg, rgb(0 168 137 / 0.15) 0%, rgb(0 80 64 / 0.25) 100%);
+  border-color: rgb(0 168 137 / 0.25);
+}
+/* ─── Orange: warm gradient ─── */
+.scheme-orange .sidebar-phrase {
+  background: linear-gradient(135deg, rgb(255 234 210 / 0.80) 0%, rgb(255 205 155 / 0.40) 100%);
+  border-color: rgb(244 105 10 / 0.14);
+}
+/* ─── Clean: barely-there box ─── */
+.scheme-gray .sidebar-phrase {
+  background: rgb(240 240 241 / 0.60);
+  border-color: rgb(220 220 223 / 0.70);
+}
+.dark .scheme-gray .sidebar-phrase {
+  background: rgb(30 30 38 / 0.60);
+  border-color: rgb(48 48 58 / 0.70);
 }
 
 /* Learning rich text editor */

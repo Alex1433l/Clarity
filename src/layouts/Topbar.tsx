@@ -22,10 +22,10 @@ export default function Topbar({ onMenuClick, sidebarCollapsed }: TopbarProps) {
     { value: 'en', label: 'English', flag: '🇬🇧' },
   ];
 
-  const colorSchemes: { value: ColorScheme; label: string; color: string }[] = [
-    { value: 'teal', label: 'Teal', color: '#0d9488' },
-    { value: 'orange', label: 'Laranja', color: '#ea580c' },
-    { value: 'gray', label: 'Cinza', color: '#475569' },
+  const colorSchemes: { value: ColorScheme; label: string; sub: string; color: string; dot: string }[] = [
+    { value: 'teal',   label: 'GAMER',  sub: 'Neon & Dark',    color: '#00a889', dot: 'linear-gradient(135deg,#00dcc0,#006b57)' },
+    { value: 'orange', label: 'OUSADO', sub: 'Bold & Warm',    color: '#f4690a', dot: 'linear-gradient(135deg,#ffaa2d,#dc5200)' },
+    { value: 'gray',   label: 'CLEAN',  sub: 'Ultra-minimal',  color: '#46464e', dot: 'linear-gradient(135deg,#c8c8d0,#383840)' },
   ];
 
   return (
@@ -63,12 +63,23 @@ export default function Topbar({ onMenuClick, sidebarCollapsed }: TopbarProps) {
                     key={s.value}
                     onClick={() => { setColorScheme(s.value); setShowColorMenu(false); }}
                     className={cn(
-                      'w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors',
-                      colorScheme === s.value ? 'text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/20' : 'text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800'
+                      'w-full flex items-center gap-3 px-3 py-2.5 text-sm transition-colors',
+                      colorScheme === s.value
+                        ? 'text-brand-600 dark:text-brand-300 bg-brand-50 dark:bg-brand-900/20'
+                        : 'text-sand-600 dark:text-sand-300 hover:bg-sand-100 dark:hover:bg-sand-800'
                     )}
                   >
-                    <span className="w-3.5 h-3.5 rounded-full border border-sand-300 dark:border-sand-700" style={{ backgroundColor: s.color }} />
-                    {s.label}
+                    <span
+                      className="w-5 h-5 rounded-full shrink-0 shadow-sm border border-white/20"
+                      style={{ background: s.dot }}
+                    />
+                    <span className="flex flex-col items-start leading-tight">
+                      <span className="font-semibold tracking-wide" style={{ fontSize: '0.72rem' }}>{s.label}</span>
+                      <span className="text-[10px] text-sand-400">{s.sub}</span>
+                    </span>
+                    {colorScheme === s.value && (
+                      <span className="ml-auto w-1.5 h-1.5 rounded-full bg-brand-500" />
+                    )}
                   </button>
                 ))}
               </div>
