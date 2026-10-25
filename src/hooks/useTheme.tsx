@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase';
 
 type Theme = 'light' | 'dark';
 export type ColorScheme = 'teal' | 'orange' | 'gray';
@@ -31,22 +33,43 @@ function getInitialColor(): ColorScheme {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
   const [theme, setThemeState] = useState<Theme>(getInitialTheme);
   const [colorScheme, setColorSchemeState] = useState<ColorScheme>(getInitialColor);
+  const [loadedUserId, setLoadedUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user) {
+      setLoadedUserId(null);
+      return;
+    }
+
+    let active = true;
+    supabase.from('profiles').select('theme, color_scheme').eq('user_id', user.id).maybeSingle().then(({ data }) => {
+      if (!active) return;
+      if (data?.theme === 'light' || data?.theme === 'dark') setThemeState(data.theme);
+      if (data?.color_scheme === 'teal' || data?.color_scheme === 'orange' || data?.color_scheme === 'gray') setColorSchemeState(data.color_scheme);
+      setLoadedUserId(user.id);
+    });
+
+    return () => { active = false; };
+  }, [user]);
 
   useEffect(() => {
     const root = document.documentElement;
     if (theme === 'dark') root.classList.add('dark');
     else root.classList.remove('dark');
     localStorage.setItem(THEME_KEY, theme);
-  }, [theme]);
+    if (user && loadedUserId === user.id) void supabase.from('profiles').update({ theme, updated_at: new Date().toISOString() }).eq('user_id', user.id);
+  }, [loadedUserId, theme, user]);
 
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove('scheme-teal', 'scheme-orange', 'scheme-gray');
     root.classList.add(`scheme-${colorScheme}`);
     localStorage.setItem(COLOR_KEY, colorScheme);
-  }, [colorScheme]);
+    if (user && loadedUserId === user.id) void supabase.from('profiles').update({ color_scheme: colorScheme, updated_at: new Date().toISOString() }).eq('user_id', user.id);
+  }, [colorScheme, loadedUserId, user]);
 
   const setTheme = (t: Theme) => setThemeState(t);
   const toggleTheme = () => setThemeState((p) => (p === 'light' ? 'dark' : 'light'));

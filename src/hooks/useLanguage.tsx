@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase';
 
 export type Language = 'pt' | 'es' | 'en';
 
@@ -380,10 +382,27 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
   const [lang, setLangState] = useState<Language>(() => {
     const stored = localStorage.getItem('clarity-lang') as Language | null;
     return stored ?? 'pt';
   });
+  const [loadedUserId, setLoadedUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user) {
+      setLoadedUserId(null);
+      return;
+    }
+
+    let active = true;
+    supabase.from('profiles').select('language').eq('user_id', user.id).maybeSingle().then(({ data }) => {
+      if (!active) return;
+      if (data?.language === 'pt' || data?.language === 'es' || data?.language === 'en') setLangState(data.language);
+      setLoadedUserId(user.id);
+    });
+    return () => { active = false; };
+  }, [user]);
 
   const setLang = (l: Language) => {
     setLangState(l);
@@ -394,7 +413,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = lang;
-  }, [lang]);
+    if (user && loadedUserId === user.id) void supabase.from('profiles').update({ language: lang, updated_at: new Date().toISOString() }).eq('user_id', user.id);
+  }, [lang, loadedUserId, user]);
 
   return (
     <LanguageContext.Provider value={{ lang, setLang, t }}>

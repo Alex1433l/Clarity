@@ -40,19 +40,29 @@ export function useProfile() {
       return;
     }
 
-    if (!data) {
+    let profileData = data;
+    if (!profileData) {
+      const { data: createdProfile } = await supabase.from('profiles').upsert({
+        user_id: user.id,
+        username: 'Alex',
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'user_id' }).select('user_id, username, avatar_path, onboarding_completed').maybeSingle();
+      profileData = createdProfile;
+    }
+
+    if (!profileData) {
       setProfile(null);
       setLoading(false);
       return;
     }
 
     let avatarUrl: string | null = null;
-    if (data.avatar_path) {
-      const { data: signedUrl } = await supabase.storage.from('avatars').createSignedUrl(data.avatar_path, 3600);
+    if (profileData.avatar_path) {
+      const { data: signedUrl } = await supabase.storage.from('avatars').createSignedUrl(profileData.avatar_path, 3600);
       avatarUrl = signedUrl?.signedUrl ?? null;
     }
 
-    setProfile({ ...data, avatar_url: avatarUrl });
+    setProfile({ ...profileData, avatar_url: avatarUrl });
     setLoading(false);
   }, [user]);
 

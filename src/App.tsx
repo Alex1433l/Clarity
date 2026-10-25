@@ -18,10 +18,10 @@ import { NotificationsProvider } from '@/hooks/useNotifications';
 
 function App() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <NotificationsProvider>
-          <AuthProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <LanguageProvider>
+          <NotificationsProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={<AuthPage />} />
@@ -41,10 +41,10 @@ function App() {
               </Route>
             </Routes>
           </BrowserRouter>
-          </AuthProvider>
           </NotificationsProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
