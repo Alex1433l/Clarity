@@ -1,9 +1,10 @@
+import { useState, type DragEvent } from 'react';
 import { NavLink } from 'react-router-dom';
-import { X, LogOut, PanelLeftClose } from 'lucide-react';
-import { navItems } from '@/config/navigation';
+import { X, LogOut, PanelLeftClose, Settings2, GripVertical, Eye, EyeOff, Check } from 'lucide-react';
 import { useLanguage, type Language } from '@/hooks/useLanguage';
 import { useAuth } from '@/hooks/useAuth';
 import { useProfile } from '@/hooks/useProfile';
+import { useNavigationLayout } from '@/hooks/useNavigationLayout';
 import { cn } from '@/utils';
 
 const dailyPhrases: Record<Language, string[]> = {
@@ -57,6 +58,15 @@ export default function Sidebar({ open, onClose, collapsed, onCollapse }: Sideba
   const dailyPhrase = dailyPhrases[lang][Math.floor(Math.random() * dailyPhrases[lang].length)];
   const { user, signOut } = useAuth();
   const { profile } = useProfile();
+  const { visibleItems, hiddenItems, reorder, hide, show, error: navigationError } = useNavigationLayout();
+  const [editingMenu, setEditingMenu] = useState(false);
+  const [draggedId, setDraggedId] = useState<string | null>(null);
+
+  const handleDrop = (event: DragEvent<HTMLDivElement>, targetId: string) => {
+    event.preventDefault();
+    if (draggedId) reorder(draggedId, targetId);
+    setDraggedId(null);
+  };
 
   return (
     <>
@@ -101,18 +111,69 @@ export default function Sidebar({ open, onClose, collapsed, onCollapse }: Sideba
         </div>
 
         <nav className="flex-1 overflow-y-auto no-scrollbar px-3 py-4 space-y-1">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.id}
-              to={item.path}
-              end={item.path === '/'}
-              onClick={onClose}
-              className={({ isActive }) => cn('nav-link', isActive && 'nav-link-active')}
+          <div className="mb-3 flex items-center justify-between px-2">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-sand-400">{t('today')}</span>
+            <button
+              type="button"
+              onClick={() => setEditingMenu((current) => !current)}
+              className={cn('rounded-lg p-1.5 transition-colors', editingMenu ? 'bg-brand-50 text-brand-600 dark:bg-brand-900/30 dark:text-brand-400' : 'text-sand-400 hover:bg-sand-100 hover:text-sand-600 dark:hover:bg-sand-800 dark:hover:text-sand-200')}
+              aria-label={editingMenu ? t('finishMenuEdit') : t('customizeMenu')}
+              title={editingMenu ? t('finishMenuEdit') : t('customizeMenu')}
             >
-              <item.icon className="w-[18px] h-[18px] shrink-0" strokeWidth={2} />
-              <span>{t(item.labelKey)}</span>
-            </NavLink>
+              {editingMenu ? <Check className="h-4 w-4" /> : <Settings2 className="h-4 w-4" />}
+            </button>
+          </div>
+
+          {visibleItems.map((item) => (
+            <div
+              key={item.id}
+              draggable={editingMenu}
+              onDragStart={() => setDraggedId(item.id)}
+              onDragOver={(event) => event.preventDefault()}
+              onDrop={(event) => handleDrop(event, item.id)}
+              className={cn(editingMenu && 'rounded-xl ring-1 ring-dashed ring-sand-200 dark:ring-sand-700')}
+            >
+              <NavLink
+                to={item.path}
+                end={item.path === '/'}
+                onClick={onClose}
+                className={({ isActive }) => cn('nav-link', isActive && 'nav-link-active')}
+              >
+                {editingMenu && <GripVertical className="h-4 w-4 shrink-0 text-sand-300 dark:text-sand-600" />}
+                <item.icon className="w-[18px] h-[18px] shrink-0" strokeWidth={2} />
+                <span className="flex-1">{t(item.labelKey)}</span>
+                {editingMenu && (
+                  <button
+                    type="button"
+                    onClick={(event) => { event.preventDefault(); event.stopPropagation(); hide(item.id); }}
+                    className="rounded-md p-1 text-sand-400 hover:bg-sand-200 hover:text-sand-700 dark:hover:bg-sand-700 dark:hover:text-sand-200"
+                    aria-label={`${t('hideMenuItem')}: ${t(item.labelKey)}`}
+                  >
+                    <EyeOff className="h-4 w-4" />
+                  </button>
+                )}
+              </NavLink>
+            </div>
           ))}
+
+          {editingMenu && hiddenItems.length > 0 && (
+            <div className="mt-4 border-t border-sand-200 pt-3 dark:border-sand-800">
+              <p className="mb-2 px-2 text-[11px] font-medium text-sand-400">{t('showMenuItem')}</p>
+              {hiddenItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => show(item.id)}
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-sand-500 transition-colors hover:bg-sand-100 hover:text-sand-700 dark:text-sand-400 dark:hover:bg-sand-800 dark:hover:text-sand-200"
+                >
+                  <item.icon className="h-[18px] w-[18px] shrink-0" strokeWidth={2} />
+                  <span className="flex-1 text-left">{t(item.labelKey)}</span>
+                  <Eye className="h-4 w-4" />
+                </button>
+              ))}
+            </div>
+          )}
+          {editingMenu && navigationError && <p className="px-2 pt-3 text-xs text-red-500">{t('menuSaveError')}</p>}
         </nav>
 
         <div className="px-4 py-4 border-t border-sand-200/80 dark:border-sand-800">

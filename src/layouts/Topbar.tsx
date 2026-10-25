@@ -40,10 +40,6 @@ export default function Topbar({ onMenuClick, sidebarCollapsed }: TopbarProps) {
           <Menu className="w-5 h-5" />
         </button>
 
-        <div className="hidden sm:block">
-          <p className="text-sm text-sand-500 dark:text-sand-400">{t('todaySubtitle').split('?')[0]}</p>
-        </div>
-
         <div className="flex-1" />
 
         {/* Music player */}
@@ -57,7 +53,6 @@ export default function Topbar({ onMenuClick, sidebarCollapsed }: TopbarProps) {
             aria-label="Color scheme"
           >
             <Palette className="w-5 h-5" />
-            <span className="w-3 h-3 rounded-full border border-sand-300 dark:border-sand-700" style={{ backgroundColor: colorSchemes.find((s) => s.value === colorScheme)?.color }} />
           </button>
           {showColorMenu && (
             <>
